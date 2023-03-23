@@ -3,7 +3,7 @@ public:
 
     // Encodes a URL to a shortened URL.
     string encode(string longUrl) {
-        return longUrl;
+        return decode(longUrl);
     }
 
     // Decodes a shortened URL to its original URL.
