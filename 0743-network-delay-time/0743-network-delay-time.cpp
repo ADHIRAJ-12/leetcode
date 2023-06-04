@@ -1,5 +1,6 @@
-  const int N = 1e5+10;
- const int INF =1e9+10;
+const int N = 1e5+10;
+const int INF =1e9+10;
+
 class Solution {
 public:
 
