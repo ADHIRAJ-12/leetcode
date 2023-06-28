@@ -47,10 +47,7 @@ public:
             }
             
         
-        }
-        
-        
-    
+        }    
     return prob[end];
     }
 };
