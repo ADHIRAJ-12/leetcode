@@ -14,13 +14,22 @@ public:
     
     vector<TreeNode*> solve(int n){
        
-        vector<TreeNode*>v;
+        vector<vector<TreeNode*>>dp(n+1);
+        if(n % 2 == 0)return {};
         
+//         TreeNode* node= new TreeNode(NULL);
+//         TreeNode* nodee=new TreeNode(0);
+//         dp[0]={};
+//         dp[1]={0};
+        
+        vector<TreeNode*>v;
         if(n==1){
             TreeNode* node= new TreeNode(0);
             v.push_back(node);
             return v;
         }
+        
+        if(dp[n].size()!=0)return dp[n];
         
         for(int i=1;i<n;i+=2){
             vector<TreeNode*> left=solve(i);
@@ -35,7 +44,7 @@ public:
                 }
             }
         }
-        return v;
+         return dp[n]=v;
         
     }
     
