@@ -8,13 +8,13 @@ public:
 
         if(grid[0][0]==1 || grid[n-1][n-1]==1)return -1;
         
-priority_queue< pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<pair<int,pair<int,int>>> >mini;
+        queue< pair<int,pair<int,int>> >mini;
         mini.push({0,{0,0}});
         
         while(!mini.empty()){
-            int dis=mini.top().first;
-            int row=mini.top().second.first;
-            int col=mini.top().second.second;
+            int dis=mini.front().first;
+            int row=mini.front().second.first;
+            int col=mini.front().second.second;
             mini.pop();
             
             if(row==n-1 && col==m-1)return dis+1; 
