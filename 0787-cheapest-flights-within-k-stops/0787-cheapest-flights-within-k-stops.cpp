@@ -22,16 +22,16 @@ public:
             mini.pop();
             
             // if(node==dst &&count<=k+1 )return price;
-            
-            count++;
+            // count++;
+            if(count>k)continue;
             for(auto i:adj[node]){
                 
                 int wt=i[1];
                 int nbr=i[0];
-                if(price+wt<dist[nbr] &&count<=k+1)  {
+                if(price+wt<dist[nbr] &&count<=k)  {
                     int newprice=price+wt;
                     dist[nbr]=newprice;
-                    mini.push({count,{newprice,nbr}});
+                    mini.push({count+1,{newprice,nbr}});
                 }
             
          }
