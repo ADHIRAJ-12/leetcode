@@ -1,51 +1,82 @@
- const int N=1e5+10;
-int parent[N];
-int sizes[N];
- 
-void make(int v){
-  parent [v]=v;
-  sizes[v]=1;
-}
- 
-int find(int v){
-    if(v==parent[v])return v;
-    return parent[v]=find(parent[v]);
-}
- 
-void Union(int a,int b){
- 
-    a=find(a);
-    b=find(b);
-    if(a!=b){
-        if(sizes[a]<sizes[b])swap(a,b);
-        parent[b]=parent[a];
-        sizes[a]+=sizes[b];
+class DisjointSet{
+
+    vector<int>parent,rank,size;
+
+public:
+    //constructor
+     DisjointSet(int n){
+
+        parent.resize(n+1);
+        rank.resize(n+1,0);
+        size.resize(n+1);
+
+        for(int i=0;i<=n;i++){
+            parent[i]=i;
+            size[i]=1;
+        }
+
+
+     }
+
+    int findUltParent(int node){
+        if(node==parent[node])return node;
+        else return parent[node]=findUltParent(parent[node]);
     }
-}
- 
+
+
+    void unionByRank(int u,int v){
+
+        int ultU=findUltParent(u);
+        int ultV=findUltParent(v);
+
+        if(ultV==ultU)return;
+        if(rank[ultV]<rank[ultU])parent[ultV]=ultU;
+        else if(rank[ultU]<rank[ultV])parent[ultU]=ultV;
+        else {
+            parent[ultV]=ultU;
+            rank[ultU]++;
+        }
+    }
+
+
+    void unionBySize(int u,int v){
+
+        int ultU=findUltParent(u);
+        int ultV=findUltParent(v);
+
+        if(ultV==ultU)return;
+        if(size[ultV]<size[ultU]){
+            parent[ultV]=ultU;
+            size[ultU]+=size[ultV];
+        }
+        else{
+             parent[ultU]=ultV;
+            size[ultV]+=size[ultU];
+        }
+    }
+
+};
+
+
+
+
 
 class Solution {
-     
 public:
-    int findCircleNum(vector<vector<int>>& connections) {
-        int n=connections.size();
-        for(int i=0;i<n;i++)make(i);
+    int findCircleNum(vector<vector<int>>& isConnected) {
         
-        // for(int i=0;i<n;i++){
-        //     int u=connections[i][0];
-        //     int v=connections[i][1];
-        //     Union(u,v);
-        // }
-        for(int i=0;i<connections.size();i++)
-            for(int j=0;j<connections[i].size();j++)
-                if(connections[i][j])
-                    Union(i, j);
-        
-        int c=0;
+        int n=isConnected.size();
+        DisjointSet ds(n);
         for(int i=0;i<n;i++){
-            if(find(i)==i)c++;
+            for(int j=0;j<n;j++){
+                if(isConnected[i][j])ds.unionBySize(i,j);
+            }
         }
-        
+        int c=0;
+        for(int i=0;i<n;i++)if(ds.findUltParent(i)==i)c++;
         return c;
+        
+        
+        
     }
 };
