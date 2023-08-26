@@ -44,28 +44,19 @@ public:
                 
     
     int minCostConnectPoints(vector<vector<int>>& points) {
-        
-//         vector<pair<int,int>>adj[n];
-        
-//         for(int i=0;i<n;i++){
-//             for(int j=i+1;j<n;j++){
-//                 adj[i].push_back({j,dist(points[i],points[j])});
-//                 adj[j].push_back({j,dist(points[j],points[j])});
-//             }
-//         }
-        
-        
-//          return prims(adj, n);
+
  
         int n=points.size();
         vector<pair<int,int>>adj[n];
-        for(int i=0; i<n; i++){
-            for(int j=i+1; j<n; j++){
-                int w = abs(points[i][0]-points[j][0]) + abs(points[i][1]-points[j][1]);
-                adj[i].push_back({j, w});
-                adj[j].push_back({i, w});
+       
+                
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                adj[i].push_back({j,dist(points[i],points[j])});
+                adj[j].push_back({i,dist(points[i],points[j])});
             }
         }
+        
         return prims(adj, n);
         
         
