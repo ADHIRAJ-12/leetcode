@@ -20,12 +20,12 @@ public:
         }
     }
        
-    return maxi/2;
+    return maxi;
        
        
     }
     
-        void bfs(int i,int j,int &sum,vector<vector<int>>&vis,vector<vector<int>>&grid){
+        void bfs(int i,int j,int &sum,vector<vector<int>>&vis,vector<vector<int>> grid){
         
         int n = grid.size();
         int m = grid[0].size();
@@ -39,7 +39,6 @@ public:
             int row=q.front().first;
             int col=q.front().second;
             q.pop();
-            sum+=grid[row][col];
             
             vector<int> dx = {-1, 1, 0, 0};
             vector<int> dy = {0, 0, -1, 1};
