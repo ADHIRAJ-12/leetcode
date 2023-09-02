@@ -56,13 +56,15 @@ public:
         
     vector<int> ans(queries.size(), 0); 
     vector<pair<int, pair<int,int>>> offlineQueries; 
-
+    
+        //sort the given arr
     sort(arr.begin(), arr.end()); 
     int index = 0;
 
     for(auto &it: queries) {
         offlineQueries.push_back({it[1],{it[0], index++}}); 
     }
+        //sort in inc order of [mi]
     sort(offlineQueries.begin(), offlineQueries.end()); 
 	
     int i = 0; 
@@ -75,6 +77,8 @@ public:
             i++; 
         }
         //if index is still 0 means nothing inserted ,insert -1 in ans
+        //else insert the max value tha can be generated
+
         if(i!=0) ans[it.second.second] = trie.findMax(it.second.first); 
         else ans[it.second.second] = -1; 
     }
