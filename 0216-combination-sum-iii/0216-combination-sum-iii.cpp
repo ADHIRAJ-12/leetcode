@@ -1,38 +1,40 @@
 class Solution {
 public:
- void f(int ind,int c,int k,int t,int n, vector<vector<int>> &res,vector<int> &ans,vector<int>& arr){
-
-        if(t==0 && c==k ){
-            res.push_back(ans);
+    
+    void f(int ind,int count,int k,int target,int n,vector<int>&nums,vector<int>&res,vector<vector<int>>&ans){
+        
+        //base
+        if(target==0 && count==k ){
+            ans.push_back(res);
             return;
         }
-
-
+        
         for(int i=ind;i<n;i++){
-            //leaving same element [1,1,1,2] eg
-            // if(i>ind && arr[i]==arr[i-1])continue;
+            
+            //not take
+            if(nums[i]>target)break;
+            
+             // if(i>ind && nums[i]==nums[i-1])continue;
 
-        if(arr[i]>t)break;    
-    //sorted aaray so if 3rd ind is >target ,all further index wil be bigger for sure
-         ans.push_back(arr[i]);
-            c++;
-         f(i+1,c,k,t-arr[i],n,res,ans,arr);
-         ans.pop_back();
-            c--;
-        }
+                res.push_back(nums[i]);
+                count++;
+                f(i+1,count,k,target-nums[i],n,nums,res,ans);
+                res.pop_back();
+                count--;
 
-}
+        
+            }
+        
+    }
     
     vector<vector<int>> combinationSum3(int k, int target) {
-    
-    vector<int>candidates={1,2,3,4,5,6,7,8,9};
-     vector<vector<int>>res;
-     vector<int> ans;
-     int n=candidates.size();
-      f(0,0,k,target,9,res,ans,candidates);
-
-      return res;
         
+         vector<vector<int>>ans;
+         vector<int>res;
+        vector<int>nums={1,2,3,4,5,6,7,8,9};
+    //ind,count,k,targeet,size of nums,nums,ans,res
+        f(0,0,k,target,9,nums,res,ans);
+        return ans;
         
     }
 };
