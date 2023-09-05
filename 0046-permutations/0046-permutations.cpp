@@ -1,30 +1,42 @@
 class Solution {
-    private:
+public:
     
-    void solve(vector<int> nums,  vector<vector<int>>& ans,int index){
-        if(index>=nums.size()){
-            ans.push_back(nums);
+    
+    void f(int ind,vector<int>&nums,vector<int>&vis,vector<int>&temp,vector<vector<int>>&ans){
+        
+        
+        if(temp.size()==nums.size()){
+            ans.push_back(temp);
             return;
         }
         
-        for(int j=index;j<nums.size();j++){
-            swap(nums[index],nums[j]);
-            solve(nums,ans,index+1);
-            //backtracking
-            swap(nums[index],nums[j]);
-
+        for(int i=0;i<nums.size();i++){
+            if(!vis[i]){
+                temp.push_back(nums[i]);
+                vis[i]=1;
+                f(i+1,nums,vis,temp,ans);
+                vis[i]=0;
+                temp.pop_back();
+            }
         }
+        
+        
         
     }
     
     
-public:
+    
+    
     vector<vector<int>> permute(vector<int>& nums) {
         
+        //method 1 using extra space
         vector<vector<int>>ans;
-        int index=0;
-        solve(nums,ans,index);
+        vector<int>temp;
+        vector<int>vis(nums.size(),0);
+        
+        f(0,nums,vis,temp,ans);
         return ans;
+
         
     }
 };
