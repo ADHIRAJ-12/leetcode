@@ -1,47 +1,51 @@
 class Solution {
 public:
-       vector<vector<string>>ans1;
-        vector<string>x;
-       bool isPalindrome(int i,int j,string s){
-    while(i<j){
-        if(s[i]!=s[j])return false;
-        i++;
-        j--;
+    
+    
+    bool palin(string&s ,int st,int e){
+        
+        while(st<=e){
+            if(s[st]!=s[e])return false;
+            else{
+                st++;
+                e--;
+            }
+        }
+        return true;
         
     }
-    return true;
     
-}
-
-
- void f(int i,int n,string &s){
-     
-     if(i==n){
-          {
-            ans1.push_back(x);
+    void f(int ind,string &s,vector<string>&temp,vector<vector<string>>&ans){
+        
+        if(ind==s.size()){
+            ans.push_back(temp);
             return;
         }
-     }
-     string temp="";
-     
-     
-    //  if(dp[i]!=-1)return dp[i];
-
-     for(int j=i;j<n;j++){
-         temp+=s[j];
-         if(isPalindrome(i,j,s)){
-          x.push_back(temp);
-                f(j+1,n,s);
-                x.pop_back();
-         }
-     }
-  
- }
+        
+        for(int i=ind;i<s.size();i++){
+            
+                if(palin(s,ind,i)){
+                temp.push_back(s.substr(ind,i-ind+1));
+                f(i+1,s,temp,ans);
+                temp.pop_back();
+            }
+            
+        }
+        
+        
+    }
+    
+    
+    
+    
+    
     vector<vector<string>> partition(string s) {
         
-         int n =s.size();
-       f(0,n,s); 
-      return ans1;
-    
+         vector<vector<string>>ans;
+        vector<string>temp;
+        f(0,s,temp,ans);
+        return ans;
+        
+        
     }
 };
