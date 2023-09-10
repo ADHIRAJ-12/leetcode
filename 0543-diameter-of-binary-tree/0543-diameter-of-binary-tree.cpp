@@ -10,38 +10,24 @@
  * };
  */
 class Solution {
-    private:
-     int maxDepth(TreeNode* root) {
-        //base case
-         if (root==NULL) 
-            return 0;     
-         
-        //recurssive calls for left and right part
-        
-        int left=maxDepth(root->left);      
-        int right=maxDepth(root->right);
-       int ans=max(left,right)+1;
-        return ans;
-        
-    }
-    
 public:
+    
+int maxi=-1e9;
+int findMaxDepth(TreeNode *root) 
+{
+    if(root==NULL)return 0;
+
+    int left=findMaxDepth(root->left);
+    int right=findMaxDepth(root->right);
+    maxi=max(maxi,left+right);
+    return 1+max(left,right);
+}
+
+    
+    
     int diameterOfBinaryTree(TreeNode* root) {
         
-       if(root==NULL)
-           return 0;
-                   
-        int ans1= diameterOfBinaryTree(root->left);
-        int ans2= diameterOfBinaryTree(root->right);
-        int ans3= maxDepth(root->left)+ maxDepth(root->right);
-        
-        int ans=max(ans1,max(ans2,ans3));
-        return ans;
-        
-        
-        
+        findMaxDepth(root);
+         return maxi;
     }
 };
-
-
-
