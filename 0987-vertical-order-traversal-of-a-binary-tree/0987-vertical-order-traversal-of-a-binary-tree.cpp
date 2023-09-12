@@ -12,45 +12,39 @@
 class Solution {
 public:
     vector<vector<int>> verticalTraversal(TreeNode* root) {
-        vector<vector<int>> ans;
-        if(root == NULL){
-            return ans;
-        }
         
-        //nodes -> to store vertical, level and nodes 
-        map<int, map<int, multiset<int>>> nodes;
+        vector<vector<int>>ans;
+        if(root==NULL)return ans;
         
-        //queue -> to store node with respect to it's vertical and level
-        queue<pair<TreeNode*, pair<int, int>>> q;
-        q.push({root, {0,0}});
+        //node,vertical,level 
+        queue<pair<TreeNode*,pair<int,int>>>q;
+        q.push({root,{0,0}});
+
+        //vertical ,level ,nodes
+        map<int,map<int,multiset<int>>> mp;
         
-        while(!q.empty()){
-            
-            auto p = q.front();
-            q.pop();
-            
-            TreeNode* node = p.first;
-            int x = p.second.first;  //vertical
-            int y = p.second.second; //level
-            
-            nodes[x][y].insert(node->val);
-            
-            if(node->left)
-                q.push({node->left, {x - 1, y + 1}});
-            if(node->right)
-                q.push({node->right, {x + 1, y + 1}});
-        }
+    while(!q.empty()){
         
-        for(auto p : nodes){
-            vector<int> col;
-            for(auto i : p.second){
-                col.insert(col.end(), i.second.begin(), i.second.end());
+        TreeNode* node=q.front().first;
+        int vert=q.front().second.first;
+        int lev=q.front().second.second;
+        q.pop();
+        
+        mp[vert][lev].insert(node->val);
+        
+        if(node->left)q.push({node->left,{vert-1,lev+1}});
+        if(node->right)q.push({node->right,{vert+1,lev+1}});
+        
+    }        
+        
+        for(auto i:mp){
+            vector<int>res;
+            for(auto j:i.second){
+                res.insert(res.end(),j.second.begin(),j.second.end());
             }
-            
-            ans.push_back(col);
+            ans.push_back(res);
         }
-        
         return ans;
+        
     }
-    
 };
