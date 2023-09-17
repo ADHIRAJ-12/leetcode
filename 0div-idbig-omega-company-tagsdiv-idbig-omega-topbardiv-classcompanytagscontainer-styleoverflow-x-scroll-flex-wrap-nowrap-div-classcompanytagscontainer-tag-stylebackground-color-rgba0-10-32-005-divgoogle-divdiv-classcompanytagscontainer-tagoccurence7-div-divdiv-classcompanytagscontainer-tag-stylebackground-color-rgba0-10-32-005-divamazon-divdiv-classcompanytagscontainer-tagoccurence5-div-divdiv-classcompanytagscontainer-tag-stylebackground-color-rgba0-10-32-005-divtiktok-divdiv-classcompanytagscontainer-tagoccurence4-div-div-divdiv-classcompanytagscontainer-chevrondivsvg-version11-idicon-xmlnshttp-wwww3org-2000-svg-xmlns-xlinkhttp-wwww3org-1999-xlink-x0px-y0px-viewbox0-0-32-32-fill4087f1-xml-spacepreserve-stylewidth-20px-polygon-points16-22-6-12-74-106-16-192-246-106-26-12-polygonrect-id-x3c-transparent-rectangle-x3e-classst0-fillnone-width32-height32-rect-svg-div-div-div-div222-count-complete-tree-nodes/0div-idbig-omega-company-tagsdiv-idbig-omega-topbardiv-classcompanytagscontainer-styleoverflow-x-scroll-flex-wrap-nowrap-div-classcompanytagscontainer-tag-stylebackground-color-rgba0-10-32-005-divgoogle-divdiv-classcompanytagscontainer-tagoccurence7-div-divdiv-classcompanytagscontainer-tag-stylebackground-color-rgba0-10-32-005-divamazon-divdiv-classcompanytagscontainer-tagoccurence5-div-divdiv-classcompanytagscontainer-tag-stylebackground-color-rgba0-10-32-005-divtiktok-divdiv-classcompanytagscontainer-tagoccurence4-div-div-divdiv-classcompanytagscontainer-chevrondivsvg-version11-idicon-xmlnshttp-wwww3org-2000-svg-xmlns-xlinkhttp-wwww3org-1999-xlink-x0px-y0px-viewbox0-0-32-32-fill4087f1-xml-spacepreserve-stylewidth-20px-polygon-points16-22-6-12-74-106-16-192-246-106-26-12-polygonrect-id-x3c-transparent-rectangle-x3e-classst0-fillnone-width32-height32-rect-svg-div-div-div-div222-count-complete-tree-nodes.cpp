@@ -12,20 +12,33 @@
 class Solution {
 public:
     
-    void f(TreeNode* node,int &c){
-        
-        if(!node->left && !node->right)return;
-        if(node->left)f(node->left,c+=1);
-       if(node->right) f(node->right,c+=1);
-        
-        
+    int left(TreeNode *root){
+        int h=0;
+        while(root){
+            h++;
+            root=root->left;
+        }
+        return h;
+}
+
+int right(TreeNode*root){
+    int h=0;
+    while(root){
+        h++;
+        root=root->right;
     }
+    return h;
+}
     
     
     int countNodes(TreeNode* root) {
+    
         if(!root)return 0;
-        int c=1;
-        f(root,c);
-        return c;
+        int lh=left(root);
+        int rh=right(root);
+
+        if(lh==rh)return(pow(2,lh))-1;
+        return 1+countNodes(root->left)+countNodes(root->right);
+
     }
 };
