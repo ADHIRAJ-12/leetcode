@@ -11,42 +11,27 @@
  */
 class Solution {
 public:
-    
-     int findPosition(vector<int> in, int element, int n){
-        
-        for(int i=0;i<n;i++){
-            if(in[i]==element)
-                return i;
-        }
-        return -1;
-    }
-                     
-                    
-      TreeNode *solve(vector<int> postorder, vector<int> inorder,int &index,int inOrderStart,int inOrderEnd,int n){
-          
-          if(index<0 || inOrderStart>inOrderEnd){
-              return NULL;
-          }
-          
-          int element=postorder[index--];
-            TreeNode *root=new TreeNode (element);
-          int position=findPosition(inorder,element,n);
-                      root->right=solve(postorder,inorder,index,position+1,inOrderEnd,n);
+TreeNode* f(vector<int>& inOrder,int is,int ie,vector<int>& postOrder,int ps,int pe,map<int,int>&mp){
 
-          root->left=solve(postorder,inorder,index,inOrderStart,position-1,n);
-            return root;
-          
-      }               
-                     
-                     
-                     
-                     
-    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        int n=inorder.size();
-        int postorderIndex=n-1;
+     if(ps>pe || is>ie)return NULL;
+     TreeNode* root=new TreeNode(postOrder[pe]);
+     
+     int index=mp[root->val];
+     int numleft=index-is;
+
+     root->left=f(inOrder,is,index-1,postOrder,ps,ps+numleft-1,mp);
+     root->right=f(inOrder,index+1,ie,postOrder,ps+numleft,pe-1,mp);
+
+     return root;
+     
+}
+    TreeNode* buildTree(vector<int>& inOrder, vector<int>& postOrder) {
         
-         TreeNode * ans=solve(postorder,inorder,postorderIndex,0,n-1,n);
-        return ans;
+        map<int,int>mp;
+     int n=inOrder.size();
+     for(int i=0;i<n;i++)mp[inOrder[i]]=i;
+     TreeNode* root=f(inOrder,0,n-1,postOrder,0,n-1,mp);
+     return root;
+        
     }
 };
-   
