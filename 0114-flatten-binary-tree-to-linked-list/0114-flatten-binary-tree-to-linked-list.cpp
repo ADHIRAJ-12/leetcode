@@ -13,27 +13,24 @@ class Solution {
 public:
     void flatten(TreeNode* root) {
         
-         if (root == NULL) return;
+        //morris traversal
         
-        stack<TreeNode*>s;
-        s.push(root);
-        
-        while(!s.empty()){
+        TreeNode*  curr=root;
+        while(curr!=NULL){
             
-            TreeNode* curr=s.top();
-            s.pop();
-            
-            if(curr->right)s.push(curr->right);
-            if(curr->left)s.push(curr->left);
-            
-            
-            if(!s.empty()){
-                curr->right=s.top();
+            if(curr->left){
+                
+                TreeNode* prev=curr->left;
+                while(prev->right)prev=prev->right;
+                
+                prev->right=curr->right;
+                curr->right=curr->left;
                 curr->left=NULL;
+                
             }
-            
+            curr=curr->right;
         }
         
-
+        
     }
 };
