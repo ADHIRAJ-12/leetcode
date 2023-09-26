@@ -10,64 +10,59 @@
  * };
  */
 class Solution {
-    private:
-                    TreeNode* minVal(TreeNode* root){
-                        TreeNode* temp=root;
-                        while(temp->left!=NULL){
-                            temp=temp->left;
-                        }
-                        return temp;
-                    }
-    
 public:
     
     
+    TreeNode* find(TreeNode*root){
+        
+        if(root->right==NULL)return root;
+        return find(root->right);
+        
+    }
+    
+    TreeNode* helper(TreeNode*  root){
+        
+        if(root->left==NULL)return root->right;
+        else if(root->right==NULL)return root->left;
+        
+        TreeNode* rightchild=root->right;
+        TreeNode* lastright=find(root->left);
+        
+        lastright->right=rightchild;
+        return root->left;
+        
+        
+    }
+    
     
     TreeNode* deleteNode(TreeNode* root, int key) {
-              
         
-                   if(root==NULL)
-                    return root;
+        if(!root)return NULL;
+        if(root->val==key)return helper(root);
         
-                if(root->val==key){
-                    
-                    
-                    if(root->left==NULL & root->right==NULL){
-                        delete root;
-                        return NULL;
-                                       }
-
-                    if(root->left!=NULL & root->right==NULL){
-                        TreeNode* temp=root->left;
-                        delete root;
-                        return temp;
-                                        }
-
-                    if(root->left==NULL & root->right!=NULL){
-                        TreeNode* temp=root->right;
-                        delete root;
-                        return temp;
-                                        }
-
-                    if(root->left!=NULL & root->right!=NULL){
-                        int mini=minVal(root->right)->val;
-                        root->val=mini;
-                        root->right=deleteNode(root->right,mini);
-                        return root;
-                                         }
-
+        TreeNode* temp=root;
+       while(root!=NULL){
+            
+               if(root->val>key){
+                //go left
+                if(root->left!=NULL && root->left->val==key){
+                    root->left=helper(root->left);
+                    break;
                 }
+                   else root=root->left;
+            }
+           
+            else{
+                //go right
+                 if(root->right!=NULL && root->right->val==key){
+                    root->right=helper(root->right);
+                     break;
+                }
+                   else root=root->right;
+            }
 
-                else if(root->val >key){
-                    root->left=deleteNode(root->left,key);
-                    return root;
-                                    }
-                 else {
-                    root->right=deleteNode(root->right,key);
-                     return root;
-          
-                 } 
-        return root;
-         }
-    
-    };
+       }
+        
+        return temp;
+    }
+};
