@@ -1,7 +1,6 @@
 class Solution {
 public:
-    
-    bool solve(int mid,vector<int>& piles, int h){
+ bool solve(int mid,vector<int>& piles, int h){
         
         long count=0;
         for(int i=0;i<piles.size();i++){
