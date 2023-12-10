@@ -1,42 +1,38 @@
 class Solution {
 public:
     
-     bool solve(vector<int>& weights, int days, int capacity){
-        int requiredDays = 1;
-        int currWeight = 0;
-        for(int i : weights){
-            if(currWeight + i > capacity){
-                requiredDays++;
-                currWeight = 0;
-            }
-            currWeight += i;
+bool check(int mid,vector<int> &arr, int d){
+    int sum=0,c=1;
+    for(int i=0;i<arr.size();i++){
+        if(arr[i]+sum>mid){
+            c++;
+            sum=arr[i];
         }
-        if(requiredDays > days) return false;
-        return true;
+        else{
+            sum+=arr[i];
+        }
     }
+    return c<=d;
+}
+
     
-    
-    int shipWithinDays(vector<int>& weights, int days) {
-        int left = 0;
-        int right = 0;
-        for(int i : weights){
-            left = max(left, i);
-            right += i;
-        }
-        
-        int mid;
-        int ans = right;
-        while(left <= right){
-            mid = (left + right) / 2;
-            if(solve(weights, days, mid)){
-                ans = mid;
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
-        }
-        return ans;
+    int shipWithinDays(vector<int>& arr, int d) {
+       
+    int sum=0,maxi=INT_MIN,n=arr.size();
+ 
+    for(int i=0;i<n;i++){
+        maxi=max(maxi,arr[i]);
+        sum+=arr[i];
     }
 
+    int s=maxi,e=sum;
+    while(s<=e){
+
+        int mid=s+(e-s)/2;
+        if(check(mid,arr,d))e=mid-1;
+        else s=mid+1;
+    }
+    return s;
+    }
    
 };
