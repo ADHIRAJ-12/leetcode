@@ -5,6 +5,7 @@ public:
         vector<int>dist(n,1e9);
         dist[src]=0;
         vector<vector<int>>adj[n];
+        // vector<pair<int,int>>adj[n]; this can also be the adj list
         
         for(int i=0;i<flights.size();i++){
             adj[flights[i][0]].push_back({flights[i][1],flights[i][2]});
