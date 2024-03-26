@@ -52,23 +52,62 @@ public:
         
 //     }
     
-     int lengthOfLIS(vector<int>& arr) {
+//      int lengthOfLIS(vector<int>& arr) {
+        
+//          int n=arr.size();
+//          int index=1;
+         
+//          //vector storing -> len of lis til index i
+//          vector<int>dp(n,1),hash(n);
+//          int maxi=1;
+//          for(int i=1;i<n;i++){
+//              hash[i]=i;
+//              for(int j=0;j<i;j++)
+//              {
+//                      if(arr[j]<arr[i]){
+//                         dp[i]=max(dp[i],1+dp[j]);
+//                         hash[i]=j;
+                         
+//                      }
+                 
+//              }
+//              if(dp[i]>maxi){
+//                  maxi=dp[i];
+//                 index=i;
+//              }
+//          }
+         
+         
+//          vector<int>lis;
+//          list.push_back(arr[index]);
+         
+//          while(has[index]!=index){
+//              index=hash[index]
+//              lis.push_back(arr[index]);
+//          }
+         
+//          reverse(lis.begin(),lis.end());
+//          //return lis
+         
+//            return maxi;
+//     }
+    
+    
+    int lengthOfLIS(vector<int>& arr) {
         
          int n=arr.size();
-         
-         //vector storing -> len of lis til index i
-         vector<int>dp(n+1,1);
-         int maxi=1;
-         for(int i=1;i<n;i++){
-             for(int j=0;j<i;j++)
-             {
-                 if(arr[j]<arr[i])
-                     dp[i]=max(dp[i],1+dp[j]);
-             }
-                maxi=max(maxi,dp[i]);
-         }
-         
-        return maxi;
+         vector<int>temp;
+         temp.push_back(arr[0]);
+        
+        for(int i=1;i<n;i++){
+            if(arr[i]>temp.back())temp.push_back(arr[i]);
+            else{
+                int ind=lower_bound(temp.begin(),temp.end(),arr[i])-temp.begin();
+                temp[ind]=arr[i];
+            }
+        }
+        return temp.size();
+        
     }
     
 };
