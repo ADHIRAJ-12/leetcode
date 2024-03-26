@@ -33,23 +33,42 @@ public:
         
 //     }
     
-        int lengthOfLIS(vector<int>& arr) {
-        int n=arr.size();
-         // vector<vector<int>>dp(n,vector<int>(n+1,-1));  
-            vector<int>prev1(n+1,0);
-            vector<int>curr(n+1,0);
+//         int lengthOfLIS(vector<int>& arr) {
+//         int n=arr.size();
+//          // vector<vector<int>>dp(n,vector<int>(n+1,-1));  
+//             vector<int>prev1(n+1,0);
+//             vector<int>curr(n+1,0);
         
-            for(int ind=n-1;ind>=0;ind--){
-                for(int prev=ind-1;prev>=-1;prev--){
-                        int nottake=curr[prev+1];
-                        int take=0;
-                        if(prev==-1||arr[ind]>arr[prev])take=1+curr[ind+1];
-                        prev1[prev+1]=max(take,nottake);
-                }
-                curr=prev1;
-            }
-                     return curr[0];
+//             for(int ind=n-1;ind>=0;ind--){
+//                 for(int prev=ind-1;prev>=-1;prev--){
+//                         int nottake=curr[prev+1];
+//                         int take=0;
+//                         if(prev==-1||arr[ind]>arr[prev])take=1+curr[ind+1];
+//                         prev1[prev+1]=max(take,nottake);
+//                 }
+//                 curr=prev1;
+//             }
+//                      return curr[0];
         
+//     }
+    
+     int lengthOfLIS(vector<int>& arr) {
+        
+         int n=arr.size();
+         
+         //vector storing -> len of lis til index i
+         vector<int>dp(n+1,1);
+         int maxi=1;
+         for(int i=1;i<n;i++){
+             for(int j=0;j<i;j++)
+             {
+                 if(arr[j]<arr[i])
+                     dp[i]=max(dp[i],1+dp[j]);
+             }
+                maxi=max(maxi,dp[i]);
+         }
+         
+        return maxi;
     }
     
 };
