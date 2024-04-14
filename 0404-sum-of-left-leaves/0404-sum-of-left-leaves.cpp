@@ -11,11 +11,10 @@
  */
 class Solution {
 public:
-            int sum=0;
-
+    
+    int sum=0;
     int sumOfLeftLeaves(TreeNode* root) {
          
-        
         if(root==NULL){
             return sum;
         }
